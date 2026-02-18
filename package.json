@@ -1,17 +1,17 @@
 {
   "name": "mensajes-funnel",
   "version": "1.0.0",
-  "description": "Automated messaging system for WeSpeak onboarding",
-  "main": "api/send-email.js",
+  "description": "Automated messaging system for WeSpeak onboarding - Static GitHub Pages site",
+  "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
-    "deploy": "vercel --prod"
+    "dev": "python3 -m http.server 8000"
   },
   "keywords": [
     "email",
     "automation",
     "wespeak",
-    "onboarding"
+    "onboarding",
+    "github-pages"
   ],
   "author": "WeSpeak",
   "license": "MIT"
