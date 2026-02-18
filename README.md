@@ -1,41 +1,41 @@
 # MensajesFunnel - Sistema Automatizado de Mensajes WeSpeak
 
-Sistema web automatizado para enviar mensajes de onboarding a clientes de WeSpeak. Este proyecto incluye una interfaz web y un backend serverless para el envío de emails personalizados usando Gmail API.
+Sistema web automatizado para enviar mensajes de onboarding a clientes de WeSpeak. Este proyecto incluye una interfaz web y un backend serverless que se integra con N8N para el envío de emails personalizados.
 
 ## 🚀 Características
 
 - ✅ Formulario web intuitivo para capturar información del cliente
-- ✅ Envío automatizado de emails usando Gmail API
-- ✅ Template de email personalizado con información del cliente
-- ✅ Backend serverless seguro (credenciales protegidas)
+- ✅ Integración con N8N webhook para automatización flexible
+- ✅ Backend serverless seguro (sin credenciales de email expuestas)
 - ✅ Despliegue automático en GitHub Pages y Vercel
 - ✅ Responsive design para móviles y tablets
+- ✅ Configuración simple sin necesidad de OAuth2
 
 ## 📋 Requisitos Previos
 
 - Cuenta de GitHub
 - Cuenta de Vercel (gratuita)
-- Cuenta de Google con Gmail
+- Workflow de N8N configurado (o usar el webhook de prueba incluido)
 - Node.js 16+ (solo para desarrollo local)
 
 ## 🔧 Configuración
 
-### 1. Configurar OAuth2 de Gmail
+### 1. Configurar N8N Webhook
 
-Para obtener el Refresh Token necesario:
+El sistema envía los datos del formulario a un webhook de N8N, que se encarga de procesar y enviar el email.
 
-1. Ve a [Google Cloud Console](https://console.cloud.google.com/)
-2. Crea un nuevo proyecto o selecciona uno existente
-3. Habilita la Gmail API
-4. Crea credenciales OAuth 2.0 (Client ID y Client Secret)
-5. Agrega URI de redirección autorizado: `https://developers.google.com/oauthplayground`
-6. Ve a [OAuth Playground](https://developers.google.com/oauthplayground/)
-7. Haz clic en el ícono de configuración (⚙️) y marca "Use your own OAuth credentials"
-8. Ingresa tu Client ID y Client Secret
-9. En Step 1, selecciona "Gmail API v1" y el scope `https://mail.google.com/`
-10. Haz clic en "Authorize APIs"
-11. En Step 2, haz clic en "Exchange authorization code for tokens"
-12. Copia el "Refresh token" que se genera
+**Opción A: Usar el webhook de prueba (por defecto)**
+- El sistema incluye un webhook de prueba pre-configurado
+- URL: `https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f`
+- No requiere configuración adicional
+
+**Opción B: Configurar tu propio webhook de N8N**
+1. Accede a tu instancia de N8N
+2. Crea un nuevo workflow
+3. Agrega un nodo **Webhook** para recibir los datos
+4. Configura los nodos necesarios para procesar y enviar emails
+5. Copia la URL del webhook generada
+6. Configura la variable de entorno `N8N_WEBHOOK_URL` en Vercel (ver paso 2)
 
 ### 2. Desplegar en Vercel
 
@@ -49,17 +49,14 @@ npm install -g vercel
 git clone https://github.com/alesoander/MensajesFunnel.git
 cd MensajesFunnel
 
-# Instalar dependencias
+# Instalar dependencias (opcional, no hay dependencias externas ahora)
 npm install
 
 # Desplegar
 vercel
 
-# Configurar variables de entorno en Vercel
-vercel env add GMAIL_USER
-vercel env add GMAIL_CLIENT_ID
-vercel env add GMAIL_CLIENT_SECRET
-vercel env add GMAIL_REFRESH_TOKEN
+# Configurar variable de entorno en Vercel (opcional - solo si usas tu propio webhook)
+vercel env add N8N_WEBHOOK_URL
 
 # Desplegar a producción
 vercel --prod
@@ -71,12 +68,11 @@ vercel --prod
 2. Crea una cuenta o inicia sesión
 3. Haz clic en "Add New Project"
 4. Importa este repositorio de GitHub
-5. Configura las variables de entorno:
-   - `GMAIL_USER`: Tu email de Gmail (ej: onboarding@wespeak.pro)
-   - `GMAIL_CLIENT_ID`: Tu Client ID de OAuth2
-   - `GMAIL_CLIENT_SECRET`: Tu Client Secret de OAuth2
-   - `GMAIL_REFRESH_TOKEN`: El token que obtuviste en el paso anterior
+5. (Opcional) Si quieres usar tu propio webhook de N8N, configura la variable de entorno:
+   - `N8N_WEBHOOK_URL`: Tu URL de webhook personalizada de N8N
 6. Haz clic en "Deploy"
+
+**Nota**: Si no configuras `N8N_WEBHOOK_URL`, el sistema usará el webhook de prueba por defecto.
 
 ### 3. Configurar GitHub Pages
 
@@ -111,8 +107,9 @@ Si usas el dominio automático de Vercel, no necesitas cambiar nada.
 
 ## 🔒 Seguridad
 
-- ✅ Credenciales de Gmail almacenadas de forma segura en variables de entorno de Vercel
-- ✅ Las credenciales NUNCA se exponen en el código frontend
+- ✅ No se requieren credenciales de email en el código
+- ✅ Webhook URL puede configurarse de forma segura en variables de entorno de Vercel
+- ✅ Las credenciales de email están gestionadas por N8N (no expuestas en este sistema)
 - ✅ API protegida con CORS
 - ✅ Validación de campos requeridos
 
@@ -157,10 +154,10 @@ npm run dev
 
 ## 🚨 Solución de Problemas
 
-### Error: "Failed to send email"
-- Verifica que todas las variables de entorno estén configuradas correctamente en Vercel
-- Asegúrate de que el Refresh Token sea válido
-- Verifica que la Gmail API esté habilitada en Google Cloud Console
+### Error: "Failed to send message"
+- Verifica que el webhook de N8N esté activo y accesible
+- Si usas tu propio webhook, asegúrate de que la URL esté configurada correctamente en Vercel
+- Verifica los logs en N8N para ver si el webhook está recibiendo las peticiones
 
 ### Error: "CORS policy"
 - Asegúrate de que el backend esté desplegado y accesible

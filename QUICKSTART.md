@@ -10,7 +10,7 @@
    - Customer email
    - Optional notes
 3. **Click "Enviar Mensaje"**
-4. **Done!** The customer will receive the onboarding email
+4. **Done!** The data is sent to N8N, which handles the email delivery
 
 📖 **Detailed instructions**: See [USAGE.md](USAGE.md)
 
@@ -19,14 +19,20 @@
 ### Prerequisites
 - GitHub account (you have this)
 - Vercel account (free): https://vercel.com
-- Gmail OAuth2 credentials
+- N8N workflow with webhook (or use the included test webhook)
 
 ### Setup Steps
 
-#### 1. Get Gmail Refresh Token
+#### 1. Configure N8N Webhook (Optional)
 ```bash
-# Follow the instructions in DEPLOYMENT.md section 1
-# You'll need to use OAuth Playground to generate the token
+# Option A: Use the test webhook (default)
+# No configuration needed - ready to use
+
+# Option B: Set up your own N8N workflow
+1. Create a workflow in N8N
+2. Add a Webhook node
+3. Configure email sending (Gmail, SMTP, SendGrid, etc.)
+4. Copy the webhook URL
 ```
 
 #### 2. Deploy Backend to Vercel
@@ -35,11 +41,8 @@
 1. Go to https://vercel.com/
 2. Click "Add New Project"
 3. Import this GitHub repository
-4. Add environment variables:
-   - GMAIL_USER
-   - GMAIL_CLIENT_ID
-   - GMAIL_CLIENT_SECRET
-   - GMAIL_REFRESH_TOKEN
+4. (Optional) Add environment variable if using custom webhook:
+   - N8N_WEBHOOK_URL = your-webhook-url
 5. Deploy
 ```
 
@@ -48,10 +51,8 @@
 npm install -g vercel
 vercel login
 vercel
-vercel env add GMAIL_USER
-vercel env add GMAIL_CLIENT_ID
-vercel env add GMAIL_CLIENT_SECRET
-vercel env add GMAIL_REFRESH_TOKEN
+# (Optional) Add webhook URL if using custom N8N
+vercel env add N8N_WEBHOOK_URL
 vercel --prod
 ```
 
@@ -67,8 +68,9 @@ vercel --prod
 ```bash
 1. Visit https://alesoander.github.io/MensajesFunnel/
 2. Fill the form with test data
-3. Send a test email
-4. Verify it arrives
+3. Send a test message
+4. Verify N8N receives the data
+5. If email is configured in N8N, verify it arrives
 ```
 
 📖 **Detailed setup**: See [DEPLOYMENT.md](DEPLOYMENT.md)
@@ -112,9 +114,10 @@ MensajesFunnel/
 
 ### Tech Stack
 - **Frontend**: HTML, CSS, JavaScript (Vanilla)
-- **Backend**: Node.js, Nodemailer
+- **Backend**: Node.js serverless function
+- **Integration**: N8N webhook
 - **Deployment**: GitHub Pages + Vercel
-- **Email**: Gmail API with OAuth2
+- **Email**: Handled by N8N (flexible - Gmail, SMTP, SendGrid, etc.)
 
 📖 **Full documentation**: See [README.md](README.md)
 
@@ -136,13 +139,14 @@ MensajesFunnel/
 
 ## ✨ Features
 
-✅ Automated email sending  
-✅ Professional email template  
-✅ Secure credential handling  
+✅ Automated webhook integration  
+✅ N8N handles email delivery  
+✅ No email credentials in code  
 ✅ Easy-to-use web interface  
 ✅ Responsive design  
 ✅ No database needed  
 ✅ Free to host  
+✅ Simpler setup than OAuth2  
 
 ---
 

@@ -15,7 +15,5 @@
   ],
   "author": "WeSpeak",
   "license": "MIT",
-  "dependencies": {
-    "nodemailer": "^7.0.11"
-  }
+  "dependencies": {}
 }
