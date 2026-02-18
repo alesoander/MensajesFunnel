@@ -58,19 +58,16 @@ When the user clicks "Enviar Mensaje":
 
 ### 1. Configurar N8N Webhook
 
-El sistema envía los datos del formulario directamente a un webhook de N8N, que se encarga de procesar y enviar el email.
+El sistema envía los datos del formulario a través de un backend serverless que se conecta a un webhook de N8N.
 
 **Configurar tu webhook de N8N:**
 1. Accede a tu instancia de N8N
 2. Crea un nuevo workflow
 3. Agrega un nodo **Webhook** para recibir los datos
-4. **IMPORTANTE**: Habilita CORS en el webhook para permitir requests desde `https://alesoander.github.io`
-5. Configura los nodos necesarios para procesar y enviar emails
-6. Copia la URL del webhook generada
-7. Actualiza la URL en el archivo `app.js` (línea 2):
-   ```javascript
-   const N8N_WEBHOOK_URL = 'TU_URL_DE_WEBHOOK_AQUI';
-   ```
+4. Configura los nodos necesarios para procesar y enviar emails
+5. Copia la URL del webhook generada
+6. **Para Vercel**: Configura la variable de entorno `N8N_WEBHOOK_URL` en Vercel Dashboard (ver Quick Setup arriba)
+7. **Para GitHub Pages**: Actualiza la URL en el archivo `app.js` (línea 2)
 
 **Estructura de datos que recibirá el webhook:**
 ```json
@@ -117,11 +114,17 @@ MensajesFunnel/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # GitHub Actions workflow
+├── api/
+│   └── send-email.js           # Vercel serverless function (backend)
 ├── index.html                  # Página principal del formulario
-├── app.js                      # Lógica del frontend (incluye URL de N8N webhook)
+├── app.js                      # Lógica del frontend
+├── vercel.json                 # Configuración de Vercel
+├── .env.example                # Ejemplo de variables de entorno
 ├── package.json                # Metadatos del proyecto
 ├── .gitignore                  # Archivos ignorados por Git
-└── README.md                   # Este archivo
+├── README.md                   # Este archivo
+├── DEPLOYMENT.md               # Guía de despliegue en Vercel
+└── VERCEL_SETUP.md             # Referencia rápida para Vercel
 ```
 
 ## 🛠️ Desarrollo Local
@@ -143,14 +146,20 @@ npx http-server -p 8000
 
 ## 🚨 Solución de Problemas
 
-### Error: "Failed to send message"
-- Verifica que el webhook de N8N esté activo y accesible
-- Asegúrate de que la URL del webhook en `app.js` sea correcta
+### Error: "Error de conexión" o "Failed to send message"
+- **Vercel**: Verifica que la variable de entorno `N8N_WEBHOOK_URL` esté configurada en Vercel Dashboard
+- Asegúrate de que el webhook de N8N esté activo y accesible
 - Verifica los logs en N8N para ver si el webhook está recibiendo las peticiones
+- Verifica los logs de la función serverless en Vercel Dashboard
+
+### Error: "Server configuration error"
+- La variable de entorno `N8N_WEBHOOK_URL` no está configurada en Vercel
+- Revisa la sección "Quick Setup (Vercel)" arriba para configurarla
+- Después de agregar la variable, debes redesplegar la aplicación
 
 ### Error: "CORS policy"
-- Asegúrate de que N8N tenga CORS habilitado para `https://alesoander.github.io`
-- En N8N, configura el webhook para aceptar requests desde el dominio de GitHub Pages
+- Vercel maneja CORS automáticamente en el backend
+- Si usas GitHub Pages directo, asegúrate de que N8N tenga CORS habilitado
 
 ### El formulario no envía
 - Abre la consola del navegador (F12) para ver errores
