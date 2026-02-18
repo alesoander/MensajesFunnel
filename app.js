@@ -1,5 +1,5 @@
-// Direct N8N webhook URL
-const N8N_WEBHOOK_URL = 'https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f';
+// API endpoint - calls Vercel serverless function
+const API_ENDPOINT = '/api/send-email';
 
 document.getElementById('messageForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ document.getElementById('messageForm').addEventListener('submit', async (e) => {
     messageBox.classList.remove('show');
     
     try {
-        const response = await fetch(N8N_WEBHOOK_URL, {
+        const response = await fetch(API_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
