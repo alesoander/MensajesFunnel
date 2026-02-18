@@ -49,7 +49,7 @@ function getEmailTemplate(data) {
                         <li style="margin-left: 15px;">
                             Al ingresar, vas a encontrar <strong>varios videos explicativos</strong> con los conceptos esenciales
                             y los pasos clave de la implementación. Te recomendamos verlos: te ayudarán a ahorrar tiempo y a avanzar
-                            de forma más eficiente..<br /><br />
+                            de forma más eficiente.<br /><br />
                         </li>
                         👩‍💻&nbsp; <a href="https://www.youtube.com/watch?v=ujBFHqByoJA&list=PL2SUK-lbzEGfffAbWk1NbgmWSZybiBN4H&index=2" target="_blank">
                             <strong>Video: Introducción y Tips iniciales: ¿Cómo configurar mi Asistente Virtual? | WeSpeak</strong>
@@ -102,7 +102,7 @@ function getEmailTemplate(data) {
                                         </p>
                                         <p dir="ltr" style="line-height: 1.8; margin-top: 0pt; margin-bottom: 0pt;">
                                             <span style="font-size: 8pt; font-family: Verdana, sans-serif; color: rgb(67, 67, 67); background-color: transparent; font-variant-numeric: normal; font-variant-east-asian: normal; font-variant-alternates: normal; vertical-align: baseline;">
-                                                Customer Succsess | WeSpeak
+                                                Customer Success | WeSpeak
                                             </span>
                                         </p>
                                         <p dir="ltr" style="line-height: 1.2; margin-top: 0pt; margin-bottom: 0pt;">
@@ -192,9 +192,19 @@ function getEmailTemplate(data) {
 }
 
 module.exports = async (req, res) => {
-    // Enable CORS
+    // Enable CORS - restrict to GitHub Pages domain
+    const allowedOrigins = [
+        'https://alesoander.github.io',
+        'http://localhost:3000',
+        'http://localhost:8000'
+    ];
+    
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin) || !origin) {
+        res.setHeader('Access-Control-Allow-Origin', origin || '*');
+    }
+    
     res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader(
         'Access-Control-Allow-Headers',
