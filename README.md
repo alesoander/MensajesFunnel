@@ -24,18 +24,24 @@ Sistema web automatizado para enviar mensajes de onboarding a clientes de WeSpea
 
 El sistema envía los datos del formulario a un webhook de N8N, que se encarga de procesar y enviar el email.
 
-**Opción A: Usar el webhook de prueba (por defecto)**
-- El sistema incluye un webhook de prueba pre-configurado
-- URL: `https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f`
-- No requiere configuración adicional
-
-**Opción B: Configurar tu propio webhook de N8N**
+**Configurar tu webhook de N8N:**
 1. Accede a tu instancia de N8N
 2. Crea un nuevo workflow
 3. Agrega un nodo **Webhook** para recibir los datos
 4. Configura los nodos necesarios para procesar y enviar emails
 5. Copia la URL del webhook generada
 6. Configura la variable de entorno `N8N_WEBHOOK_URL` en Vercel (ver paso 2)
+
+**Estructura de datos que recibirá el webhook:**
+```json
+{
+  "wespeak_link_de_acceso": "https://...",
+  "firstname_responsable_onboarding": "Name",
+  "opportunityname": "Opportunity Name",
+  "email": "client@example.com",
+  "Notas_Presentacion_Onboarding": "Optional notes"
+}
+```
 
 ### 2. Desplegar en Vercel
 
@@ -55,7 +61,7 @@ npm install
 # Desplegar
 vercel
 
-# Configurar variable de entorno en Vercel (opcional - solo si usas tu propio webhook)
+# Configurar variable de entorno en Vercel (requerido)
 vercel env add N8N_WEBHOOK_URL
 
 # Desplegar a producción
@@ -68,11 +74,9 @@ vercel --prod
 2. Crea una cuenta o inicia sesión
 3. Haz clic en "Add New Project"
 4. Importa este repositorio de GitHub
-5. (Opcional) Si quieres usar tu propio webhook de N8N, configura la variable de entorno:
-   - `N8N_WEBHOOK_URL`: Tu URL de webhook personalizada de N8N
+5. Configura la variable de entorno (requerida):
+   - `N8N_WEBHOOK_URL`: Tu URL de webhook de N8N
 6. Haz clic en "Deploy"
-
-**Nota**: Si no configuras `N8N_WEBHOOK_URL`, el sistema usará el webhook de prueba por defecto.
 
 ### 3. Configurar GitHub Pages
 

@@ -5,18 +5,13 @@
 Antes de comenzar, asegúrate de tener:
 - [ ] Cuenta de GitHub (ya tienes acceso al repositorio)
 - [ ] Cuenta de Vercel (crear en https://vercel.com)
-- [ ] Workflow de N8N configurado con webhook (o usar el webhook de prueba incluido)
+- [ ] Workflow de N8N configurado con webhook
 
 ## 🚀 Pasos de Despliegue
 
 ### 1. Configurar Webhook de N8N
 
-**Opción A: Usar el webhook de prueba (recomendado para empezar)**
-- El sistema incluye un webhook de prueba pre-configurado
-- No requiere configuración adicional
-- URL de prueba: `https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f`
-
-**Opción B: Configurar tu propio webhook en N8N**
+**Configurar tu webhook en N8N:**
 
 1. Accede a tu instancia de N8N (ej: https://tu-instancia.n8n.cloud)
 2. Crea un nuevo workflow
@@ -50,11 +45,10 @@ Antes de comenzar, asegúrate de tener:
 3. Click en "Add New Project"
 4. Selecciona "Import Git Repository"
 5. Conecta con GitHub y selecciona el repositorio `alesoander/MensajesFunnel`
-6. (Opcional) Si quieres usar tu propio webhook de N8N, configura la **Environment Variable**:
+6. Configura la **Environment Variable** (requerida):
    ```
-   N8N_WEBHOOK_URL = [tu-url-de-webhook-personalizada]
+   N8N_WEBHOOK_URL = [tu-url-de-webhook-de-n8n]
    ```
-   Si no configuras esta variable, se usará el webhook de prueba por defecto.
 7. Click en "Deploy"
 8. Espera a que termine el despliegue
 9. Copia la URL generada (ej: `https://tu-proyecto.vercel.app`)
@@ -145,9 +139,10 @@ Antes de comenzar, asegúrate de tener:
 
 ## ✅ Checklist de Despliegue
 
-- [ ] Webhook de N8N configurado (o usando el de prueba)
+- [ ] Webhook de N8N configurado
+- [ ] URL del webhook copiada
 - [ ] Backend desplegado en Vercel
-- [ ] Variable de entorno configurada en Vercel (si usas webhook personalizado)
+- [ ] Variable de entorno N8N_WEBHOOK_URL configurada en Vercel
 - [ ] Frontend desplegado en GitHub Pages
 - [ ] Prueba de envío exitosa
 - [ ] Verificado que N8N recibe los datos

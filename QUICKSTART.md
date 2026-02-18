@@ -19,16 +19,13 @@
 ### Prerequisites
 - GitHub account (you have this)
 - Vercel account (free): https://vercel.com
-- N8N workflow with webhook (or use the included test webhook)
+- N8N workflow with webhook configured
 
 ### Setup Steps
 
-#### 1. Configure N8N Webhook (Optional)
+#### 1. Configure N8N Webhook
 ```bash
-# Option A: Use the test webhook (default)
-# No configuration needed - ready to use
-
-# Option B: Set up your own N8N workflow
+# Set up your N8N workflow:
 1. Create a workflow in N8N
 2. Add a Webhook node
 3. Configure email sending (Gmail, SMTP, SendGrid, etc.)
@@ -41,7 +38,7 @@
 1. Go to https://vercel.com/
 2. Click "Add New Project"
 3. Import this GitHub repository
-4. (Optional) Add environment variable if using custom webhook:
+4. Add environment variable (required):
    - N8N_WEBHOOK_URL = your-webhook-url
 5. Deploy
 ```
@@ -51,7 +48,7 @@
 npm install -g vercel
 vercel login
 vercel
-# (Optional) Add webhook URL if using custom N8N
+# Add webhook URL (required)
 vercel env add N8N_WEBHOOK_URL
 vercel --prod
 ```

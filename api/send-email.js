@@ -37,7 +37,14 @@ module.exports = async (req, res) => {
         }
 
         // Get N8N webhook URL from environment variable
-        const webhookUrl = process.env.N8N_WEBHOOK_URL || 'https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f';
+        const webhookUrl = process.env.N8N_WEBHOOK_URL;
+
+        if (!webhookUrl) {
+            return res.status(500).json({ 
+                error: 'N8N webhook URL not configured',
+                details: 'Please configure N8N_WEBHOOK_URL environment variable' 
+            });
+        }
 
         // Send form data to N8N webhook
         const webhookResponse = await fetch(webhookUrl, {
