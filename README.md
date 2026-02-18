@@ -1,16 +1,53 @@
 # MensajesFunnel - Sistema Automatizado de Mensajes WeSpeak
 
-Sistema web automatizado para enviar mensajes de onboarding a clientes de WeSpeak. Este proyecto es un sitio web estático que se integra directamente con N8N para el envío de emails personalizados.
+Sistema web automatizado para enviar mensajes de onboarding a clientes de WeSpeak. Este proyecto incluye un frontend y un backend serverless que se integra con N8N para el envío de emails personalizados.
 
 ## 🚀 Características
 
 - ✅ Formulario web intuitivo para capturar información del cliente
-- ✅ Integración directa con N8N webhook para automatización flexible
-- ✅ 100% estático - sin backend ni servidor necesario
-- ✅ Despliegue automático en GitHub Pages
+- ✅ Backend serverless (Vercel) para manejo seguro de API
+- ✅ Integración con N8N webhook para automatización flexible
+- ✅ Despliegue automático en Vercel o GitHub Pages
 - ✅ Responsive design para móviles y tablets
 - ✅ Sin credenciales de email expuestas
-- ✅ Configuración simple sin OAuth2
+- ✅ Configuración simple con variables de entorno
+
+## 🚀 Quick Setup (Vercel)
+
+### Step 1: Import to Vercel
+1. Go to [Vercel](https://vercel.com/)
+2. Click "Add New Project"
+3. Import your `alesoander/MensajesFunnel` repository
+4. Click "Deploy" (it will fail first time - that's expected)
+
+### Step 2: Configure N8N Webhook
+1. In Vercel Dashboard, go to your project
+2. Go to **Settings** → **Environment Variables**
+3. Add new variable:
+   - **Name**: `N8N_WEBHOOK_URL`
+   - **Value**: `https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f`
+4. Click **Save**
+5. Go to **Deployments** tab
+6. Click the **three dots** on the latest deployment
+7. Click **Redeploy**
+
+### Step 3: Test
+1. Visit your Vercel URL (e.g., `https://mensajes-funnel.vercel.app`)
+2. Fill the form
+3. Click "Enviar Mensaje"
+4. ✅ Done!
+
+## 🔧 How It Works
+
+- **Frontend**: Hosted on Vercel or GitHub Pages (`index.html`, `app.js`)
+- **Backend**: Vercel Serverless Function (`api/send-email.js`)
+- **Email Delivery**: N8N Webhook handles email sending
+
+When the user clicks "Enviar Mensaje":
+1. Frontend sends form data to `/api/send-email`
+2. Vercel serverless function receives the data
+3. Function posts to N8N webhook
+4. N8N sends the email
 
 ## 📋 Requisitos Previos
 
