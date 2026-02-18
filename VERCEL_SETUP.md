@@ -4,15 +4,17 @@
 
 ### Variable to Add
 ```
-N8N_WEBHOOK_URL=https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f
+N8N_WEBHOOK_URL=https://your-n8n-instance.com/webhook-test/YOUR-WEBHOOK-ID
 ```
+
+**Replace with your actual N8N webhook URL**
 
 ### Where to Add It
 1. Vercel Dashboard → Your Project
 2. Settings → Environment Variables
 3. Add New Variable
 4. Name: `N8N_WEBHOOK_URL`
-5. Value: (paste the URL above)
+5. Value: (paste your N8N webhook URL)
 6. Environments: Production, Preview, Development
 7. Save
 

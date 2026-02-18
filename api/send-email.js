@@ -1,5 +1,6 @@
 // Vercel Serverless Function
 // This function receives form data and forwards it to N8N webhook
+// Note: Requires Node.js 18+ for native fetch support (Vercel default)
 module.exports = async (req, res) => {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true);

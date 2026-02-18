@@ -25,7 +25,7 @@ Sistema web automatizado para enviar mensajes de onboarding a clientes de WeSpea
 2. Go to **Settings** → **Environment Variables**
 3. Add new variable:
    - **Name**: `N8N_WEBHOOK_URL`
-   - **Value**: `https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f`
+   - **Value**: `https://your-n8n-instance.com/webhook-test/YOUR-WEBHOOK-ID` (replace with your actual N8N webhook URL)
 4. Click **Save**
 5. Go to **Deployments** tab
 6. Click the **three dots** on the latest deployment
