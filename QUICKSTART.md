@@ -10,7 +10,7 @@
    - Customer email
    - Optional notes
 3. **Click "Enviar Mensaje"**
-4. **Done!** The data is sent to N8N, which handles the email delivery
+4. **Done!** The data is sent directly to N8N, which handles the email delivery
 
 📖 **Detailed instructions**: See [USAGE.md](USAGE.md)
 
@@ -18,8 +18,7 @@
 
 ### Prerequisites
 - GitHub account (you have this)
-- Vercel account (free): https://vercel.com
-- N8N workflow with webhook configured
+- N8N workflow with webhook configured and CORS enabled
 
 ### Setup Steps
 
@@ -28,29 +27,17 @@
 # Set up your N8N workflow:
 1. Create a workflow in N8N
 2. Add a Webhook node
-3. Configure email sending (Gmail, SMTP, SendGrid, etc.)
-4. Copy the webhook URL
+3. Enable CORS for https://alesoander.github.io
+4. Configure email sending (Gmail, SMTP, SendGrid, etc.)
+5. Copy the webhook URL
 ```
 
-#### 2. Deploy Backend to Vercel
+#### 2. Update Webhook URL in Code
 ```bash
-# Option A: From Vercel Dashboard (Recommended)
-1. Go to https://vercel.com/
-2. Click "Add New Project"
-3. Import this GitHub repository
-4. Add environment variable (required):
-   - N8N_WEBHOOK_URL = your-webhook-url
-5. Deploy
-```
-
-```bash
-# Option B: Using Vercel CLI
-npm install -g vercel
-vercel login
-vercel
-# Add webhook URL (required)
-vercel env add N8N_WEBHOOK_URL
-vercel --prod
+1. Edit the file `app.js`
+2. Find line 2: const N8N_WEBHOOK_URL = '...'
+3. Replace with your webhook URL
+4. Commit and push to main/master branch
 ```
 
 #### 3. Enable GitHub Pages
@@ -81,27 +68,21 @@ vercel --prod
 git clone https://github.com/alesoander/MensajesFunnel.git
 cd MensajesFunnel
 
-# Install dependencies
-npm install
+# Start development server (Python 3)
+python3 -m http.server 8000
 
-# Create .env file
-cp .env.example .env
-# Edit .env with your credentials
-
-# Start development server
-npm run dev
+# Or with Node.js
+npx http-server -p 8000
 
 # Open browser
-open http://localhost:3000
+open http://localhost:8000
 ```
 
 ### Project Structure
 ```
 MensajesFunnel/
 ├── index.html          # Frontend form
-├── app.js              # Frontend logic
-├── api/
-│   └── send-email.js   # Backend API (serverless)
+├── app.js              # Frontend logic (includes N8N webhook URL)
 ├── .github/workflows/
 │   └── deploy.yml      # GitHub Actions
 ├── README.md           # Technical documentation
@@ -111,9 +92,8 @@ MensajesFunnel/
 
 ### Tech Stack
 - **Frontend**: HTML, CSS, JavaScript (Vanilla)
-- **Backend**: Node.js serverless function
-- **Integration**: N8N webhook
-- **Deployment**: GitHub Pages + Vercel
+- **Integration**: N8N webhook (direct)
+- **Deployment**: GitHub Pages (static hosting)
 - **Email**: Handled by N8N (flexible - Gmail, SMTP, SendGrid, etc.)
 
 📖 **Full documentation**: See [README.md](README.md)
@@ -136,14 +116,27 @@ MensajesFunnel/
 
 ## ✨ Features
 
-✅ Automated webhook integration  
+✅ Direct N8N webhook integration  
 ✅ N8N handles email delivery  
+✅ No backend server needed  
 ✅ No email credentials in code  
 ✅ Easy-to-use web interface  
 ✅ Responsive design  
 ✅ No database needed  
-✅ Free to host  
-✅ Simpler setup than OAuth2  
+✅ Free to host on GitHub Pages  
+✅ Simple one-step deployment  
+
+## 💡 Architecture
+
+**Before:** Frontend (GitHub Pages) → Backend (Vercel) → N8N Webhook
+
+**Now:** Frontend (GitHub Pages) → N8N Webhook (direct)
+
+**Benefits:**
+- ✅ Simpler - only one deployment
+- ✅ Faster - fewer hops
+- ✅ Free - no Vercel needed
+- ✅ Easier to maintain
 
 ---
 

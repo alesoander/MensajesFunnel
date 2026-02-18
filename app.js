@@ -1,9 +1,5 @@
-// Configuration - Automatically detects the API endpoint
-// For local development: http://localhost:3000/api/send-email
-// For production: https://your-vercel-deployment.vercel.app/api/send-email
-const API_ENDPOINT = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000/api/send-email'
-    : `${window.location.origin}/api/send-email`;
+// Direct N8N webhook URL
+const N8N_WEBHOOK_URL = 'https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f';
 
 document.getElementById('messageForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -28,7 +24,7 @@ document.getElementById('messageForm').addEventListener('submit', async (e) => {
     messageBox.classList.remove('show');
     
     try {
-        const response = await fetch(API_ENDPOINT, {
+        const response = await fetch(N8N_WEBHOOK_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,13 +32,11 @@ document.getElementById('messageForm').addEventListener('submit', async (e) => {
             body: JSON.stringify(formData)
         });
         
-        const result = await response.json();
-        
         if (response.ok) {
             showMessage('success', '✅ ¡Mensaje enviado exitosamente! El cliente recibirá el email de onboarding en breve.');
             form.reset();
         } else {
-            showMessage('error', `❌ Error al enviar el mensaje: ${result.error || 'Por favor, intente nuevamente.'}`);
+            showMessage('error', `❌ Error al enviar el mensaje. Por favor, intente nuevamente.`);
         }
     } catch (error) {
         console.error('Error:', error);
