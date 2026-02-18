@@ -47,7 +47,10 @@ module.exports = async (req, res) => {
             throw new Error(`N8N webhook responded with status: ${response.status}`);
         }
 
-        const data = await response.json().catch(() => ({}));
+        const data = await response.json().catch((err) => {
+            console.warn('N8N response is not JSON:', err.message);
+            return {};
+        });
         
         return res.status(200).json({ 
             success: true,
