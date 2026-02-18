@@ -42,11 +42,11 @@ Antes de comenzar, asegúrate de tener:
 2. Abre el archivo `app.js`
 3. Encuentra la línea 2 que contiene:
    ```javascript
-   const N8N_WEBHOOK_URL = 'https://n8n.srv1010580.hstgr.cloud/webhook-test/8efad83b-804c-4201-9e9e-d8b185c7a59f';
+   const N8N_WEBHOOK_URL = 'https://your-n8n-instance.com/webhook/your-webhook-id';
    ```
 4. Reemplaza con tu URL de webhook de N8N:
    ```javascript
-   const N8N_WEBHOOK_URL = 'TU_URL_DE_WEBHOOK_AQUI';
+   const N8N_WEBHOOK_URL = 'https://tu-instancia-n8n.com/webhook/tu-webhook-id';
    ```
 5. Guarda y haz commit del cambio
 6. Haz push a la rama principal (main/master)
